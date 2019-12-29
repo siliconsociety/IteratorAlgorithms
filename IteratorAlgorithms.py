@@ -2,11 +2,6 @@
 Collection of iterator algorithms inspired by the algorithm library of C++.
 Author: Robert Sharp
 
-# DocTests:
->>> import itertools
->>> import operator
->>> import functools
->>> import typing
 """
 import itertools
 import operator
@@ -23,11 +18,34 @@ __all__ = (
 )
 
 
-def exclusive_scan(array: Iterable, init) -> Iterator:
-    """ Exclusive Scan Pairs
-    Inserts an initial value at the beginning and ignores the last value.
+def inclusive_scan(array: Iterable, init=None) -> Iterator:
+    """ Inclusive Scan -> Adjacent Pairs
 
     DocTests:
+    >>> list(inclusive_scan(range(1, 10)))
+    [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9)]
+    >>> list(inclusive_scan(range(1, 10), 0))
+    [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9)]
+
+    @param array: Iterable to be scanned.
+    @return: Iterator of Pairs.
+    """
+    left, right = itertools.tee(array, 2)
+    if init is not None:
+        left = itertools.chain((init,), left)
+    else:
+        _ = next(right)
+    return zip(left, right)
+
+
+def exclusive_scan(array: Iterable, init=None) -> Iterator:
+    """ Exclusive Scan -> Adjacent Pairs
+    Like inclusive_scan, but:
+        Inserts an initial value at the beginning and ignores the last value.
+
+    DocTests:
+    >>> list(exclusive_scan(range(1, 10)))
+    [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
     >>> list(exclusive_scan(range(1, 10), 0))
     [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
     >>> list(exclusive_scan(range(1, 10), 10))
@@ -38,29 +56,19 @@ def exclusive_scan(array: Iterable, init) -> Iterator:
     @return: Iterator of Pairs.
     """
     left, right = itertools.tee(array, 2)
-    left = itertools.chain((init, ), tuple(left)[:-2])
-    return zip(left, right)
-
-
-def inclusive_scan(array: Iterable) -> Iterator:
-    """ Inclusive Scan Pairs
-
-    DocTests:
-    >>> list(inclusive_scan(range(1, 6)))
-    [(1, 2), (2, 3), (3, 4), (4, 5)]
-    >>> list(inclusive_scan(range(1, 10)))
-    [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9)]
-
-    @param array: Iterable to be scanned.
-    @return: Iterator of Pairs.
-    """
-    left, right = itertools.tee(array, 2)
-    next(right)
+    left = iter(tuple(left)[:-2])
+    if init is not None:
+        left = itertools.chain((init, ), left)
+    else:
+        _ = next(right)
     return zip(left, right)
 
 
 def partition(array: Iterable, predicate: Callable[[Any], bool]) -> Iterator:
     """ Stable Partition
+    Arranges all the elements of a group such that any that return true
+        when passed to the predicate will be at the front, and the rest will be
+        at the back. The size will not change.
 
     DocTests:
     >>> list(partition(range(1, 10), is_even))
@@ -106,19 +114,22 @@ def adjacent_difference(array: Iterable) -> Iterator:
     [1, 1, 1, 1, 1, 1, 1, 1, 1]
     >>> list(adjacent_difference(partial_sum(range(1, 10))))
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> list(adjacent_difference(partial_sum(range(-10, 11, 2))))
+    [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
 
     @param array: Iterable of Numeric Values.
     @return: Iterable of adjacent differences.
     """
-    left, right = itertools.tee(array, 2)
-    right = itertools.chain((0, ), right)
-    return transform_reduce(left, right, operator.sub, iter)
+    """
+    transform -> exclusive scan, operator.sub
+    """
+    return itertools.starmap(lambda x, y: y - x, inclusive_scan(array, 0))
 
 
 def transform_reduce(lhs: Iterable, rhs: Iterable,
                      transformer: Callable, reducer: Callable):
     """ Transform Reduce
-    Pairwise transform and reduction.
+    Pairwise transform and then reduction across all results.
 
     DocTests:
     >>> transform_reduce(range(1, 6), range(1, 6), operator.mul, sum)
@@ -155,7 +166,7 @@ def inner_product(lhs: Iterable, rhs: Iterable):
 
 def accumulate(array: Iterable):
     """ Accumulate
-    Sums up a range of elements. Same as Reduce with operator.add
+    Sums up a range of elements. Same as reduce with operator.add
 
     DocTests:
     >>> accumulate(range(5))
@@ -176,15 +187,19 @@ def reduce(array: Iterable, func: Callable, initial=None):
     DocTests:
     >>> reduce(range(1, 5), operator.add)
     10
+    >>> reduce(range(1, 5), operator.add, 100)
+    110
     >>> reduce(range(1, 5), operator.mul)
     24
+    >>> reduce(range(1, 5), operator.mul, 0)
+    0
 
     @param array: Iterable of Values to be reduced.
     @param func: Binary Functor.
     @param initial: Initial value. Typically 0 for add or 1 for multiply.
     @return: Reduced Value.
     """
-    if initial:
+    if initial is not None:
         return functools.reduce(func, array, initial)
     else:
         return functools.reduce(func, array)
@@ -298,7 +313,7 @@ def analytic_continuation(func: Callable, num: int, offset: int = 0) -> int:
 
 def fork(array: Iterable, forks: int = 2) -> tuple:
     """ Fork
-    Iterator Duplicator.
+    Iterator Duplicator. Same as itertools.tee but with a better name.
 
     DocTests:
     >>> it = iter(range(10))

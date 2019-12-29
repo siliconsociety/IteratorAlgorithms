@@ -1,16 +1,31 @@
 # Iterator Algorithms
+#### Robert Sharp, Library Author
 
-A collection of iterator algorithms for Python3 inspired by the algorithms library of C++.
+IA is a collection of iterator algorithms for Python3, inspired by the C++ 
+algorithms library with ranges.
 
-## Author: Robert Sharp
+Many of the algorithms are the same as those found in the standard library, but 
+extended in some way. For example: the IA.symmetric_difference function can 
+accept an arbitrary number of sets as input. The built in set method of the same 
+name can only compare 2 sets. The abstraction is raised from - 
+"What's not in both sets." to "What's not in all sets." It's the exact opposite 
+of the intersection of multiple sets.
+
+A few of the IA algorithms are exactly the same as those found in itertools, but 
+with slightly different signatures and/or better names. IA.fork, for example, 
+is exactly the same as itertools.tee. While the choice of one name over another 
+is largely subjective, it is the author's opinion that the name 'tee' is 
+especially bad, in addition - it's quite possible that 'fork' is only 
+marginally better. If you have suggestions - please make a pull request, 
+lets build this together.
 
 ### Quick Install:
-```shell script
+```
 $ python3 -m pip install IteratorAlgorithms
 ```
 
-### Run Basic Test Suite:
-```shell script
+### Run Test Suite:
+```
 $ python3 -m IteratorAlgorithms
 ... # Test Output
 Test passed.
@@ -19,9 +34,9 @@ $
 Tests are verbose by default. Tests are only run when the module is executed as a script, as above.
 
 ### Standard Import:
-```shell script
+```
 $ python3
->>> import IteratorAlgorithms
+>>> import IteratorAlgorithms as ia
 # No Test Output. Ready for work!
 >>>
 ```
@@ -29,11 +44,13 @@ None of the standard import styles should trigger the tests.
 
 ### Help Features
 All of the features of this module have full help support built in.
-```pydocstring
+```
 $ python3
 >>> from IteratorAlgorithms import fork
 >>> help(fork)
-Help on function fork in module __main__:
+```
+```
+Help on function fork in module IteratorAlgorithms:
 
 fork(array: Iterable, forks: int = 2) -> tuple
     Fork
@@ -95,7 +112,7 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ## Generators
 
 ### Iota
-```pydocstring
+```
 Help on function iota in module IteratorAlgorithms:
 
 iota(start, stop=None, step=1, stride=1) -> Iterator
@@ -120,7 +137,7 @@ iota(start, stop=None, step=1, stride=1) -> Iterator
 
 ```
 ### Generate
-```pydocstring
+```
 Help on function generate in module IteratorAlgorithms:
 
 generate(transformer: Callable, *args, **kwargs)
@@ -139,7 +156,7 @@ generate(transformer: Callable, *args, **kwargs)
 
 ```
 ### Generate_N
-```pydocstring
+```
 Help on function generate_n in module IteratorAlgorithms:
 
 generate_n(n: int, transformer: Callable, *args, **kwargs)
@@ -161,7 +178,7 @@ generate_n(n: int, transformer: Callable, *args, **kwargs)
 ## Expansions
 
 ### Fork
-```pydocstring
+```
 Help on function fork in module IteratorAlgorithms:
 
 fork(array: Iterable, forks: int = 2) -> tuple
@@ -184,7 +201,7 @@ fork(array: Iterable, forks: int = 2) -> tuple
 
 ```
 ### Exclusive_Scan
-```pydocstring
+```
 Help on function exclusive_scan in module IteratorAlgorithms:
 
 exclusive_scan(array: Iterable, init) -> Iterator
@@ -203,7 +220,7 @@ exclusive_scan(array: Iterable, init) -> Iterator
 
 ```
 ### Inclusive_Scan
-```pydocstring
+```
 Help on function inclusive_scan in module IteratorAlgorithms:
 
 inclusive_scan(array: Iterable) -> Iterator
@@ -223,7 +240,7 @@ inclusive_scan(array: Iterable) -> Iterator
 ## Transforms
 
 ### Transform
-```pydocstring
+```
 Help on function transform in module IteratorAlgorithms:
 
 transform(array: Iterable, func: Callable) -> Iterator
@@ -242,7 +259,7 @@ transform(array: Iterable, func: Callable) -> Iterator
 
 ```
 ### Adjacent_Difference
-```pydocstring
+```
 Help on function adjacent_difference in module IteratorAlgorithms:
 
 adjacent_difference(array: Iterable) -> Iterator
@@ -262,7 +279,7 @@ adjacent_difference(array: Iterable) -> Iterator
 
 ```
 ### Partial_Sum
-```pydocstring
+```
 Help on function partial_sum in module IteratorAlgorithms:
 
 partial_sum(array: Iterable) -> Iterator
@@ -284,7 +301,7 @@ partial_sum(array: Iterable) -> Iterator
 ## Permutations
 
 ### Partition
-```pydocstring
+```
 Help on function partition in module IteratorAlgorithms:
 
 partition(array: Iterable, predicate: Callable[[Any], bool]) -> Iterator
@@ -305,7 +322,7 @@ partition(array: Iterable, predicate: Callable[[Any], bool]) -> Iterator
 ## Reductions
 
 ### Reduce
-```pydocstring
+```
 Help on function reduce in module IteratorAlgorithms:
 
 reduce(array: Iterable, func: Callable, initial=None)
@@ -325,7 +342,7 @@ reduce(array: Iterable, func: Callable, initial=None)
 
 ```
 ### Accumulate
-```pydocstring
+```
 Help on function accumulate in module IteratorAlgorithms:
 
 accumulate(array: Iterable)
@@ -343,7 +360,7 @@ accumulate(array: Iterable)
 
 ```
 ### Product
-```pydocstring
+```
 Help on function product in module IteratorAlgorithms:
 
 product(array: Iterable)
@@ -365,7 +382,7 @@ product(array: Iterable)
 ## Queries
 
 ### All_Of
-```pydocstring
+```
 Help on function all_of in module IteratorAlgorithms:
 
 all_of(array: Iterable, predicate: Callable) -> bool
@@ -387,7 +404,7 @@ all_of(array: Iterable, predicate: Callable) -> bool
 
 ```
 ### Any_Of
-```pydocstring
+```
 Help on function any_of in module IteratorAlgorithms:
 
 any_of(array: Iterable, predicate: Callable) -> bool
@@ -409,7 +426,7 @@ any_of(array: Iterable, predicate: Callable) -> bool
 
 ```
 ### None_Of
-```pydocstring
+```
 Help on function none_of in module IteratorAlgorithms:
 
 none_of(array: Iterable, predicate: Callable) -> bool
@@ -434,7 +451,7 @@ none_of(array: Iterable, predicate: Callable) -> bool
 ## Transform & Reduce
 
 ### Transform_Reduce
-```pydocstring
+```
 Help on function transform_reduce in module IteratorAlgorithms:
 
 transform_reduce(lhs: Iterable, rhs: Iterable, transformer: Callable, reducer: Callable)
@@ -455,7 +472,7 @@ transform_reduce(lhs: Iterable, rhs: Iterable, transformer: Callable, reducer: C
 
 ```
 ### Inner_Product
-```pydocstring
+```
 Help on function inner_product in module IteratorAlgorithms:
 
 inner_product(lhs: Iterable, rhs: Iterable)
@@ -478,7 +495,7 @@ inner_product(lhs: Iterable, rhs: Iterable)
 ## Multidimensional Reductions
 
 ### Zip_Transform
-```pydocstring
+```
 Help on function zip_transform in module IteratorAlgorithms:
 
 zip_transform(transformer: Callable, *args: Iterable) -> Iterator
@@ -500,7 +517,7 @@ zip_transform(transformer: Callable, *args: Iterable) -> Iterator
 
 ```
 ### Transposed_Sums
-```pydocstring
+```
 Help on function transposed_sums in module IteratorAlgorithms:
 
 transposed_sums(*args: Iterable) -> Iterator
@@ -523,7 +540,7 @@ transposed_sums(*args: Iterable) -> Iterator
 ## Multi-Set Operations
 
 ### Union
-```pydocstring
+```
 Help on function union in module IteratorAlgorithms:
 
 union(*args: set) -> set
@@ -542,7 +559,7 @@ union(*args: set) -> set
 
 ```
 ### Intersection
-```pydocstring
+```
 Help on function intersection in module IteratorAlgorithms:
 
 intersection(*args: set) -> set
@@ -564,7 +581,7 @@ intersection(*args: set) -> set
 
 ```
 ### Difference
-```pydocstring
+```
 Help on function difference in module IteratorAlgorithms:
 
 difference(*args: set) -> set
@@ -584,7 +601,7 @@ difference(*args: set) -> set
 
 ```
 ### Symmetric_Difference
-```pydocstring
+```
 Help on function symmetric_difference in module IteratorAlgorithms:
 
 symmetric_difference(*args: set) -> set
@@ -607,7 +624,7 @@ symmetric_difference(*args: set) -> set
 ```
 
 ## Test Summary
-```pydocstring
+```
 35 items passed all tests:
    4 tests in __main__
    2 tests in __main__.accumulate

@@ -11,13 +11,6 @@ name can only compare 2 sets. The abstraction is raised from -
 "What's not in both sets." to "What's not in all sets." It's the exact opposite 
 of the intersection of multiple sets.
 
-A few of the IA algorithms are exactly the same as those found in itertools, but 
-with slightly different signatures and/or better names. IA.fork, for example, 
-is exactly the same as itertools.tee. While the choice of one name over another 
-is largely subjective, it is the author's opinion that the name 'tee' is 
-especially bad, in addition - it's quite possible that 'fork' is only 
-marginally better. If you have suggestions - please make a pull request, 
-lets build this together.
 
 ### Quick Install:
 ```
@@ -27,7 +20,8 @@ $ python3 -m pip install IteratorAlgorithms
 ### Run Test Suite:
 ```
 $ python3 -m IteratorAlgorithms
-... # Test Output
+# Vebose Test Output
+...
 Test passed.
 $ 
 ```
@@ -54,7 +48,7 @@ Help on function fork in module IteratorAlgorithms:
 
 fork(array: Iterable, forks: int = 2) -> tuple
     Fork
-    Iterator Duplicator.
+    Iterator Duplicator. Same as itertools.tee but with a better name.
     
     # DocTest:
     >>> it = iter(range(10))
@@ -69,6 +63,7 @@ fork(array: Iterable, forks: int = 2) -> tuple
     @param array: Iterable to be forked.
     @param forks: Optional Integer. Default is 2. Represents the number of forks.
     @return: tuple of N Iterators where N is the number of forks.
+
 ```
 
 ## Table of Contents:
@@ -90,6 +85,7 @@ fork(array: Iterable, forks: int = 2) -> tuple
     - reduce
     - accumulate
     - product
+    - min_max
 - Queries
     - all_of
     - any_of
@@ -115,9 +111,10 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ```
 Help on function iota in module IteratorAlgorithms:
 
-iota(start, stop=None, step=1, stride=1) -> Iterator
+iota(start, *, stop=None, step=1, stride=1) -> Iterator
     Iota
-    Iterator of a given range with stride grouping.
+    Iterator of a given range with grouping size equal to the stride.
+    If stride is one - a single dimensional iterator is returned.
     
     DocTests:
     >>> list(iota(11))
@@ -129,20 +126,20 @@ iota(start, stop=None, step=1, stride=1) -> Iterator
     >>> list(iota(start=2, stop=21, step=2, stride=2))
     [(2, 4), (6, 8), (10, 12), (14, 16), (18, 20)]
     
-    @param start: Beginning
-    @param stop: Ending
-    @param step: Stepping
-    @param stride: Number of groups.
-    @return: Iterator of a given multidimensional range.
+    @param start: Beginning. Required.
+    @param stop: Ending. Default is None.
+    @param step: Stepping. Default is one.
+    @param stride: Number of groups. Default is one.
+    @return: Iterator of a given n-dimensional range.
 
 ```
 ### Generate
 ```
 Help on function generate in module IteratorAlgorithms:
 
-generate(transformer: Callable, *args, **kwargs)
+generate(func: Callable, *args, **kwargs)
     Generate
-    Abstract generator function. Infinite Iterator.
+    Infinite iterator of a callable with arguments.
     
     DocTests:
     >>> counter = itertools.count(1)
@@ -150,7 +147,7 @@ generate(transformer: Callable, *args, **kwargs)
     >>> list(next(gen) for _ in range(10))
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
-    @param transformer: Functor.
+    @param func: Callable.
     @param args: Positional arguments for the functor.
     @param kwargs: Keyword arguments for the functor.
 
@@ -159,7 +156,7 @@ generate(transformer: Callable, *args, **kwargs)
 ```
 Help on function generate_n in module IteratorAlgorithms:
 
-generate_n(n: int, transformer: Callable, *args, **kwargs)
+generate_n(n: int, func: Callable, *args, **kwargs)
     Generate N
     Abstract generator function. Finite.
     
@@ -168,8 +165,8 @@ generate_n(n: int, transformer: Callable, *args, **kwargs)
     >>> list(generate_n(10, next, counter))
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
-    @param n: Maximum number of elements.
-    @param transformer: Functor.
+    @param n: Number of elements to generate.
+    @param func: Callable.
     @param args: Positional arguments for the functor.
     @param kwargs: Keyword arguments for the functor.
 
@@ -183,7 +180,7 @@ Help on function fork in module IteratorAlgorithms:
 
 fork(array: Iterable, forks: int = 2) -> tuple
     Fork
-    Iterator Duplicator.
+    Iterator Duplicator. Same as itertools.tee but with a better name.
     
     DocTests:
     >>> it = iter(range(10))
@@ -200,39 +197,40 @@ fork(array: Iterable, forks: int = 2) -> tuple
     @return: Tuple of N Iterators where N is the number of forks.
 
 ```
-### Exclusive_Scan
-```
-Help on function exclusive_scan in module IteratorAlgorithms:
-
-exclusive_scan(array: Iterable, init) -> Iterator
-    Exclusive Scan Pairs
-    Inserts an initial value at the beginning and ignores the last value.
-    
-    DocTests:
-    >>> list(exclusive_scan(range(1, 10), 0))
-    [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
-    >>> list(exclusive_scan(range(1, 10), 10))
-    [(10, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
-    
-    @param array: Iterable to be scanned.
-    @param init: Initial Value.
-    @return: Iterator of Pairs.
-
-```
 ### Inclusive_Scan
 ```
 Help on function inclusive_scan in module IteratorAlgorithms:
 
-inclusive_scan(array: Iterable) -> Iterator
-    Inclusive Scan Pairs
+inclusive_scan(array: Iterable, init=None) -> Iterator
+    Inclusive Scan -> Adjacent Pairs
     
     DocTests:
-    >>> list(inclusive_scan(range(1, 6)))
-    [(1, 2), (2, 3), (3, 4), (4, 5)]
     >>> list(inclusive_scan(range(1, 10)))
     [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9)]
+    >>> list(inclusive_scan(range(1, 10), 0))
+    [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9)]
     
     @param array: Iterable to be scanned.
+    @param init: Optional initial value. Default is None.
+    @return: Iterator of Pairs.
+
+```
+### Exclusive_Scan
+```
+Help on function exclusive_scan in module IteratorAlgorithms:
+
+exclusive_scan(array: Iterable, init=None) -> Iterator
+    Exclusive Scan -> Adjacent Pairs
+    Like inclusive_scan, but ignores the last value.
+    
+    DocTests:
+    >>> list(exclusive_scan(range(1, 10)))
+    [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
+    >>> list(exclusive_scan(range(1, 10), 0))
+    [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
+    
+    @param array: Iterable to be scanned.
+    @param init: Initial Value.
     @return: Iterator of Pairs.
 
 ```
@@ -248,10 +246,10 @@ transform(array: Iterable, func: Callable) -> Iterator
     Similar to map but with a reversed signature.
     
     DocTests:
-    >>> list(transform(range(1, 10), add_one))
-    [2, 3, 4, 5, 6, 7, 8, 9, 10]
-    >>> list(transform(range(1, 10), square))
-    [1, 4, 9, 16, 25, 36, 49, 64, 81]
+    >>> list(transform(range(10), add_one))
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    >>> list(transform(range(10), square))
+    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
     
     @param array: Iterable of Values.
     @param func: Unary Functor. F(x) -> Value
@@ -273,6 +271,8 @@ adjacent_difference(array: Iterable) -> Iterator
     [1, 1, 1, 1, 1, 1, 1, 1, 1]
     >>> list(adjacent_difference(partial_sum(range(1, 10))))
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    >>> list(adjacent_difference(partial_sum(range(-10, 11, 2))))
+    [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
     
     @param array: Iterable of Numeric Values.
     @return: Iterable of adjacent differences.
@@ -304,8 +304,12 @@ partial_sum(array: Iterable) -> Iterator
 ```
 Help on function partition in module IteratorAlgorithms:
 
-partition(array: Iterable, predicate: Callable[[Any], bool]) -> Iterator
+partition(array: Iterable, predicate: Callable) -> Iterator
     Stable Partition
+    Arranges all the elements of a group such that any that return true
+        when passed to the predicate will be at the front, and the rest will be
+        at the back. The size of the output iterator will be the same as the
+        size of the input iterable.
     
     DocTests:
     >>> list(partition(range(1, 10), is_even))
@@ -314,7 +318,7 @@ partition(array: Iterable, predicate: Callable[[Any], bool]) -> Iterator
     [1, 3, 5, 7, 9, 2, 4, 6, 8]
     
     @param array: Iterable of values to be partitioned.
-    @param predicate: Unary functor. F(element) -> bool
+    @param predicate: Unary functor. F(x) -> bool
     @return: Partitioned Iterator.
 
 ```
@@ -332,8 +336,12 @@ reduce(array: Iterable, func: Callable, initial=None)
     DocTests:
     >>> reduce(range(1, 5), operator.add)
     10
+    >>> reduce(range(1, 5), operator.add, 100)
+    110
     >>> reduce(range(1, 5), operator.mul)
     24
+    >>> reduce(range(1, 5), operator.mul, 0)
+    0
     
     @param array: Iterable of Values to be reduced.
     @param func: Binary Functor.
@@ -347,7 +355,7 @@ Help on function accumulate in module IteratorAlgorithms:
 
 accumulate(array: Iterable)
     Accumulate
-    Sums up a range of elements. Same as Reduce with operator.add
+    Sums up a range of elements. Same as reduce with operator.add or sum()
     
     DocTests:
     >>> accumulate(range(5))
@@ -376,6 +384,65 @@ product(array: Iterable)
     
     @param array: Iterable of Values to be reduced.
     @return: Product of all elements multiplied together.
+
+```
+### Min_Max
+```
+Help on function min_max in module IteratorAlgorithms:
+
+min_max(array: Iterable) -> tuple
+    Min & Max Element
+    
+    DocTests:
+    >>> min_max(range(1, 10))
+    (1, 9)
+    >>> min_max([100, 42, 69, 1])
+    (1, 100)
+    
+    @param array: Iterable of Numeric Values
+    @return: Tuple(Minimum, Maximum)
+
+```
+### Star_Sum
+```
+Help on function star_sum in module IteratorAlgorithms:
+
+star_sum(*args)
+    Star Sum: Add All Args
+    Similar to accumulate, but takes an arbitrary number of arguments.
+    
+    DocTests:
+    >>> star_sum(1)
+    1
+    >>> star_sum(1, 2)
+    3
+    >>> star_sum(1, 2, 3)
+    6
+    >>> star_sum(1, 2, 3, 4)
+    10
+    
+    @param args: Numbers to be summed.
+    @return: Sum of all arguments.
+
+```
+### Star_Product
+```
+Help on function star_product in module IteratorAlgorithms:
+
+star_product(*args)
+    Star Product: Multiply All Args
+    Similar to product, but takes an arbitrary number of arguments.
+    
+    DocTests:
+    >>> star_product(0, 42)
+    0
+    >>> star_product(3, 3, 3)
+    27
+    >>> star_product(1, 2, 3, 4)
+    24
+    
+    @param args: Numbers to be multiplied.
+    @return: Product of all arguments.
 
 ```
 
@@ -456,7 +523,7 @@ Help on function transform_reduce in module IteratorAlgorithms:
 
 transform_reduce(lhs: Iterable, rhs: Iterable, transformer: Callable, reducer: Callable)
     Transform Reduce
-    Pairwise transform and reduction.
+    Pairwise transform and then reduction across all results.
     
     DocTests:
     >>> transform_reduce(range(1, 6), range(1, 6), operator.mul, sum)
@@ -498,22 +565,28 @@ inner_product(lhs: Iterable, rhs: Iterable)
 ```
 Help on function zip_transform in module IteratorAlgorithms:
 
-zip_transform(transformer: Callable, *args: Iterable) -> Iterator
+zip_transform(transducer: Callable, *args: Iterable) -> Iterator
     Zip Transform
-    The transformer should take the same number of arguments as there are iterators.
-    Each iteration will call the transformer on the ith elements.
-        F(a[i], b[i], c[i]...) ... for each i.
+    The transducer should take the same number of arguments as the number of
+    iterators passed. Each iteration will call the transducer with the ith element
+    of each iterable.
     
     DocTests:
     >>> l1 = (0, 1, 2, 3)
     >>> l2 = (8, 7, 6, 5)
     >>> l3 = (1, 1, 1, 1)
-    >>> list(zip_transform(add_all, l1, l2, l3))
+    >>> list(zip_transform(star_sum, []))
+    []
+    >>> list(zip_transform(star_sum, l1))
+    [0, 1, 2, 3]
+    >>> list(zip_transform(star_sum, l1, l2))
+    [8, 8, 8, 8]
+    >>> list(zip_transform(star_sum, l1, l2, l3))
     [9, 9, 9, 9]
     
-    @param transformer: Functor: F(*args) -> Value
-    @param args: Any number of Iterators.
-    @return: Iterator of transformed Values.
+    @param transducer: Callable
+    @param args: Any number of iterables.
+    @return: Iterator of values from the transducer.
 
 ```
 ### Transposed_Sums
@@ -623,20 +696,18 @@ symmetric_difference(*args: set) -> set
 
 ```
 
+
 ## Test Summary
 ```
-35 items passed all tests:
+32 items passed all tests:
    4 tests in __main__
    2 tests in __main__.accumulate
-   4 tests in __main__.add_all
    2 tests in __main__.add_one
-   2 tests in __main__.adjacent_difference
+   3 tests in __main__.adjacent_difference
    4 tests in __main__.all_of
-   9 tests in __main__.analytic_continuation
    4 tests in __main__.any_of
    4 tests in __main__.difference
    2 tests in __main__.exclusive_scan
-   3 tests in __main__.flatten
    5 tests in __main__.fork
    3 tests in __main__.generate
    2 tests in __main__.generate_n
@@ -646,22 +717,22 @@ symmetric_difference(*args: set) -> set
    4 tests in __main__.iota
    5 tests in __main__.is_even
    5 tests in __main__.is_odd
-   1 tests in __main__.min_max
+   2 tests in __main__.min_max
    4 tests in __main__.none_of
    2 tests in __main__.partial_sum
    2 tests in __main__.partition
    2 tests in __main__.product
-   2 tests in __main__.random_below
-   4 tests in __main__.range_test
-   2 tests in __main__.reduce
+   4 tests in __main__.reduce
    3 tests in __main__.square
+   3 tests in __main__.star_product
+   4 tests in __main__.star_sum
    4 tests in __main__.symmetric_difference
    2 tests in __main__.transform
    2 tests in __main__.transform_reduce
    4 tests in __main__.transposed_sums
    4 tests in __main__.union
-   4 tests in __main__.zip_transform
-114 tests in 35 items.
-114 passed and 0 failed.
+   7 tests in __main__.zip_transform
+106 tests in 32 items.
+106 passed and 0 failed.
 Test passed.
 ```

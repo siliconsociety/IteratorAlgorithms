@@ -111,14 +111,14 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ```
 Help on function iota in module IteratorAlgorithms:
 
-iota(start, *, stop=None, step=1, stride=1) -> Iterator
+iota(start, *, stop=None, step=1, stride=1)
     Iota
     Iterator of a given range with grouping size equal to the stride.
     If stride is one - a single dimensional iterator is returned.
     
     DocTests:
-    >>> list(iota(11))
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    >>> list(iota(10))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     >>> list(iota(start=1, stop=11))
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     >>> list(iota(start=2, stop=21, step=2))
@@ -130,7 +130,6 @@ iota(start, *, stop=None, step=1, stride=1) -> Iterator
     @param stop: Ending. Default is None.
     @param step: Stepping. Default is one.
     @param stride: Number of groups. Default is one.
-    @return: Iterator of a given n-dimensional range.
 
 ```
 ### Generate

@@ -6,29 +6,30 @@ algorithms library with ranges.
 
 Many of the algorithms are the same as those found in the standard library, but 
 extended in some way. For example: the IA.symmetric_difference function can 
-accept an arbitrary number of sets as input. The built in set method of the same 
-name can only compare 2 sets. The abstraction is raised from - 
-"What's not in both sets." to "What's not in all sets." It's the exact opposite 
-of the intersection of multiple sets.
+accept an arbitrary number of sets as input. For comparison, the built in set 
+method of the same name can only compare 2 sets. The abstraction is raised from - 
+"What's not in both sets." to "What's not in all sets." In both cases it is the 
+exact opposite of the intersection of the same sets.
 
 
 ### Quick Install:
-```
+```bash
 $ python3 -m pip install IteratorAlgorithms
 ```
 
 ### Run Test Suite:
-```
+```bash
 $ python3 -m IteratorAlgorithms
 # Vebose Test Output
 ...
+102 tests in 32 items.
+102 passed and 0 failed.
 Test passed.
-$ 
 ```
 Tests are verbose by default. Tests are only run when the module is executed as a script, as above.
 
 ### Standard Import:
-```
+```bash
 $ python3
 >>> import IteratorAlgorithms as ia
 # No Test Output. Ready for work!
@@ -38,7 +39,7 @@ None of the standard import styles should trigger the tests.
 
 ### Help Features
 All of the features of this module have full help support built in.
-```
+```bash
 $ python3
 >>> from IteratorAlgorithms import fork
 >>> help(fork)

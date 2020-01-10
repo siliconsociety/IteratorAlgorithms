@@ -1,13 +1,6 @@
+#!/usr/bin/env python3
 """ Iterator Algorithms
-IA is a collection of iterator algorithms for Python3,
-    inspired by the C++ algorithms library with ranges.
-Robert Sharp, Library Author
-
-DocTests:
->>> import itertools
->>> import functools
->>> import operator
->>> import typing
+IA is a collection of iterator algorithms inspired by the C++ algorithms library.
 """
 import itertools
 import functools

@@ -19,7 +19,7 @@ setup(
     py_modules=["IteratorAlgorithms"],
     author="Robert Sharp",
     author_email="webmaster@sharpdesigndigital.com",
-    version="0.0.5",
+    version="0.0.6",
     description="A collection of iterator algorithms for Python3.",
     long_description=long_description,
     long_description_content_type="text/markdown",

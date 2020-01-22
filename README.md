@@ -1,6 +1,8 @@
 # Iterator Algorithms
 #### Robert Sharp, Library Author
 
+[![Run on Repl.it](https://repl.it/badge/github/BrokenShell/IteratorAlgorithms)](https://repl.it/github/BrokenShell/IteratorAlgorithms)
+
 IA is a collection of iterator algorithms for Python3, inspired by the C++ 
 algorithms library with ranges.
 
@@ -10,7 +12,6 @@ accept an arbitrary number of sets as input. For comparison, the built in set
 method of the same name can only compare 2 sets. The abstraction is raised from - 
 "What's not in both sets." to "What's not in all sets." In both cases it is the 
 exact opposite of the intersection of the same sets.
-
 
 ### Quick Install:
 ```bash

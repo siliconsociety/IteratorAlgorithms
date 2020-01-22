@@ -130,7 +130,7 @@ iota(start, *, stop=None, step=1, stride=1)
     @param start: Beginning. Required.
     @param stop: Ending. Default is None.
     @param step: Stepping. Default is one.
-    @param stride: Number of groups. Default is one.
+    @param stride: Size of groups. Default is one.
 
 ```
 ### Generate

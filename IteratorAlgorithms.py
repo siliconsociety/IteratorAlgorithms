@@ -18,10 +18,10 @@ __all__ = (
 
 
 # Generators
-def iota(start, *, stop=None, step=1, stride=1):
+def iota(start, *, stop=None, step=1, stride=0):
     """ Iota
     Iterator of a given range with grouping size equal to the stride.
-    If stride is one - a single dimensional iterator is returned.
+    If stride is zero - a single dimensional iterator is returned.
 
     DocTests:
     >>> list(iota(10))
@@ -36,11 +36,11 @@ def iota(start, *, stop=None, step=1, stride=1):
     @param start: Beginning. Required.
     @param stop: Ending. Default is None.
     @param step: Stepping. Default is one.
-    @param stride: Number of groups. Default is one.
+    @param stride: Size of groupings. Default is zero.
     """
     if stop is None:
         start, stop = 0, start
-    if stride > 1:
+    if stride > 0:
         groups = [iter(range(start, stop, step))] * stride
         yield from zip(*groups)
     else:
@@ -199,7 +199,7 @@ def adjacent_difference(array: Iterable) -> Iterator:
     [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
 
     @param array: Iterable of Numeric Values.
-    @return: Iterable of adjacent differences.
+    @return: Iterator of adjacent differences.
     """
     return itertools.starmap(lambda x, y: y - x, inclusive_scan(array, 0))
 
@@ -259,7 +259,8 @@ def reduce(array: Iterable, func: Callable, initial=None):
 
 def accumulate(array: Iterable):
     """ Accumulate
-    Sums up a range of elements. Same as reduce with operator.add or sum()
+    Returns the Sum of a range of elements.
+        Same as sum() or reduce with operator.add
 
     DocTests:
     >>> accumulate(range(5))

@@ -228,7 +228,7 @@ def partition(array: Iterable, predicate: Callable) -> Iterator:
             top.append(itm)
         else:
             bottom.append(itm)
-    return iter(top + bottom)
+    return itertools.chain(top, bottom)
 
 
 # Reductions

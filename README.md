@@ -700,8 +700,7 @@ symmetric_difference(*args: set) -> set
 
 ## Test Summary
 ```
-32 items passed all tests:
-   4 tests in __main__
+31 items passed all tests:
    2 tests in __main__.accumulate
    2 tests in __main__.add_one
    3 tests in __main__.adjacent_difference
@@ -733,7 +732,7 @@ symmetric_difference(*args: set) -> set
    4 tests in __main__.transposed_sums
    4 tests in __main__.union
    7 tests in __main__.zip_transform
-106 tests in 32 items.
-106 passed and 0 failed.
+102 tests in 32 items.
+102 passed and 0 failed.
 Test passed.
 ```

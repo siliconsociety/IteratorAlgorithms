@@ -1,7 +1,6 @@
 # Iterator Algorithms
 #### Robert Sharp, Library Author
 
-[![Run on Repl.it](https://repl.it/badge/github/BrokenShell/IteratorAlgorithms)](https://repl.it/github/BrokenShell/IteratorAlgorithms)
 
 IA is a collection of iterator algorithms for Python3, inspired by the C++ 
 algorithms library with ranges.
@@ -95,6 +94,7 @@ fork(array: Iterable, forks: int = 2) -> tuple
 - Transform & Reduction
     - transform_reduce
     - inner_product
+    - matrix_multiply
 - Multidimensional Reductions
     - zip_transform
     - transposed_sums
@@ -113,10 +113,10 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ```
 Help on function iota in module IteratorAlgorithms:
 
-iota(start, *, stop=None, step=1, stride=1)
+iota(start, *, stop=None, step=1, stride=0)
     Iota
     Iterator of a given range with grouping size equal to the stride.
-    If stride is one - a single dimensional iterator is returned.
+    If stride is zero - a single dimensional iterator is returned.
     
     DocTests:
     >>> list(iota(10))
@@ -131,7 +131,7 @@ iota(start, *, stop=None, step=1, stride=1)
     @param start: Beginning. Required.
     @param stop: Ending. Default is None.
     @param step: Stepping. Default is one.
-    @param stride: Size of groups. Default is one.
+    @param stride: Size of groupings. Default is zero.
 
 ```
 ### Generate
@@ -276,7 +276,7 @@ adjacent_difference(array: Iterable) -> Iterator
     [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
     
     @param array: Iterable of Numeric Values.
-    @return: Iterable of adjacent differences.
+    @return: Iterator of adjacent differences.
 
 ```
 ### Partial_Sum
@@ -356,7 +356,8 @@ Help on function accumulate in module IteratorAlgorithms:
 
 accumulate(array: Iterable)
     Accumulate
-    Sums up a range of elements. Same as reduce with operator.add or sum()
+    Returns the Sum of a range of elements.
+        Same as sum() or reduce with operator.add
     
     DocTests:
     >>> accumulate(range(5))
@@ -570,7 +571,7 @@ zip_transform(transducer: Callable, *args: Iterable) -> Iterator
     Zip Transform
     The transducer should take the same number of arguments as the number of
     iterators passed. Each iteration will call the transducer with the ith element
-    of each iterable.
+    of each iterable. F(a[i], b[i], c[i]...) ...
     
     DocTests:
     >>> l1 = (0, 1, 2, 3)
@@ -700,7 +701,7 @@ symmetric_difference(*args: set) -> set
 
 ## Test Summary
 ```
-31 items passed all tests:
+32 items passed all tests:
    2 tests in __main__.accumulate
    2 tests in __main__.add_one
    3 tests in __main__.adjacent_difference
@@ -717,6 +718,7 @@ symmetric_difference(*args: set) -> set
    4 tests in __main__.iota
    5 tests in __main__.is_even
    5 tests in __main__.is_odd
+   2 tests in __main__.matrix_multiply
    2 tests in __main__.min_max
    4 tests in __main__.none_of
    2 tests in __main__.partial_sum
@@ -732,7 +734,7 @@ symmetric_difference(*args: set) -> set
    4 tests in __main__.transposed_sums
    4 tests in __main__.union
    7 tests in __main__.zip_transform
-102 tests in 32 items.
-102 passed and 0 failed.
+104 tests in 33 items.
+104 passed and 0 failed.
 Test passed.
 ```

@@ -13,11 +13,10 @@ __all__ = (
     'inner_product', 'intersection', 'iota', 'min_max', 'none_of',
     'partial_sum', 'partition', 'product', 'reduce', 'star_sum', 'star_product',
     'symmetric_difference', 'transform', 'transform_reduce',
-    'transposed_sums', 'union', 'zip_transform',
+    'transposed_sums', 'union', 'zip_transform', 'matrix_multiply',
 )
 
 
-# Generators
 def iota(start, *, stop=None, step=1, stride=0):
     """ Iota
     Iterator of a given range with grouping size equal to the stride.
@@ -83,7 +82,6 @@ def generate_n(n: int, func: Callable, *args, **kwargs):
         yield func(*args, **kwargs)
 
 
-# Expansions
 def fork(array: Iterable, forks: int = 2) -> tuple:
     """ Fork
     Iterator Duplicator. Same as itertools.tee but with a better name.
@@ -149,7 +147,6 @@ def exclusive_scan(array: Iterable, init=None) -> Iterator:
     return zip(left, right)
 
 
-# Transforms
 def transform(array: Iterable, func: Callable) -> Iterator:
     """ Transform
     Similar to map but with a reversed signature.
@@ -204,7 +201,6 @@ def adjacent_difference(array: Iterable) -> Iterator:
     return itertools.starmap(lambda x, y: y - x, inclusive_scan(array, 0))
 
 
-# Permutations
 def partition(array: Iterable, predicate: Callable) -> Iterator:
     """ Stable Partition
     Arranges all the elements of a group such that any that return true
@@ -231,7 +227,6 @@ def partition(array: Iterable, predicate: Callable) -> Iterator:
     return itertools.chain(top, bottom)
 
 
-# Reductions
 def reduce(array: Iterable, func: Callable, initial=None):
     """ Reduce
     Similar to accumulate but allows any binary functor and/or an initial value.
@@ -344,7 +339,6 @@ def star_product(*args):
     return product(args)
 
 
-# Queries
 def all_of(array: Iterable, predicate: Callable) -> bool:
     """ All of These
 
@@ -405,7 +399,6 @@ def none_of(array: Iterable, predicate: Callable) -> bool:
     return not any(predicate(val) for val in array)
 
 
-# Transform & Reduce
 def transform_reduce(lhs: Iterable, rhs: Iterable,
                      transformer: Callable, reducer: Callable):
     """ Transform Reduce
@@ -444,12 +437,33 @@ def inner_product(lhs: Iterable, rhs: Iterable):
     return transform_reduce(lhs, rhs, operator.mul, sum)
 
 
-# Multidimensional Reductions
+def matrix_multiply(left, right):
+    """ Matrix Product
+    Row by Column inner product.
+
+    DocTests
+    >>> list(matrix_multiply([[1,2], [3,4]], [[1], [2]]))
+    [(5,), (11,)]
+    >>> list(matrix_multiply([[10,20], [30,40]], [[10], [20]]))
+    [(500,), (1100,)]
+
+    @param left: M x N matrix
+    @param right: N x P matrix
+    @return: M x P matrix
+    """
+    right = list(zip(*right))
+    return zip(
+        inner_product(row, col)
+        for row in left
+        for col in right
+    )
+
+
 def zip_transform(transducer: Callable, *args: Iterable) -> Iterator:
     """ Zip Transform
     The transducer should take the same number of arguments as the number of
     iterators passed. Each iteration will call the transducer with the ith element
-    of each iterable.
+    of each iterable. F(a[i], b[i], c[i]...) ...
 
     DocTests:
     >>> l1 = (0, 1, 2, 3)
@@ -489,7 +503,6 @@ def transposed_sums(*args: Iterable) -> Iterator:
     return zip_transform(lambda *a: sum(a), *args)
 
 
-# Multi-Set Operations
 def union(*args: set) -> set:
     """ Multiple Set Union
     Includes all elements of every set passed in.
@@ -568,10 +581,11 @@ def symmetric_difference(*args: set) -> set:
 if __name__ == '__main__':
     import doctest
 
-    # Test Helpers
+
     def is_even(n):
         """ Is Even
         Checks a number to see if it is even.
+            Test Helper Function
 
         DocTests:
         >>> is_even(1)
@@ -594,6 +608,7 @@ if __name__ == '__main__':
     def is_odd(n):
         """ Is Odd
         Checks a number to see if it is odd.
+            Test Helper Function
 
         DocTests:
         >>> is_odd(1)
@@ -615,6 +630,7 @@ if __name__ == '__main__':
 
     def square(n):
         """ Square of N
+            Test Helper Function
 
         DocTests:
         >>> square(1)
@@ -632,6 +648,7 @@ if __name__ == '__main__':
 
     def add_one(n):
         """ Add One
+            Test Helper Function
 
         DocTests:
         >>> add_one(41)
@@ -644,5 +661,5 @@ if __name__ == '__main__':
         """
         return n + 1
 
-    # Run Tests
+
     doctest.testmod(verbose=True)

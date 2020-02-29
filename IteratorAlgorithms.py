@@ -6,6 +6,7 @@ import itertools
 import functools
 import operator
 from typing import Callable, Iterator, Iterable
+import doctest
 
 __all__ = (
     'accumulate', 'adjacent_difference', 'all_of', 'any_of', 'difference',
@@ -578,88 +579,87 @@ def symmetric_difference(*args: set) -> set:
     return difference(union(*args), intersection(*args))
 
 
+# ---- TEST HELPERS ---- #
+
+def is_even(n):
+    """ Is Even
+    Checks a number to see if it is even.
+        Test Helper Function
+
+    DocTests:
+    >>> is_even(1)
+    False
+    >>> is_even(2)
+    True
+    >>> is_even(3)
+    False
+    >>> is_even(42)
+    True
+    >>> is_even(69)
+    False
+
+    @param n: Number to be checked
+    @return: Boolean
+    """
+    return n % 2 == 0
+
+
+def is_odd(n):
+    """ Is Odd
+    Checks a number to see if it is odd.
+        Test Helper Function
+
+    DocTests:
+    >>> is_odd(1)
+    True
+    >>> is_odd(2)
+    False
+    >>> is_odd(3)
+    True
+    >>> is_odd(42)
+    False
+    >>> is_odd(69)
+    True
+
+    @param n: Number to be checked
+    @return: Boolean
+    """
+    return n % 2 == 1
+
+
+def square(n):
+    """ Square of N
+        Test Helper Function
+
+    DocTests:
+    >>> square(1)
+    1
+    >>> square(4)
+    16
+    >>> square(-4)
+    16
+
+    @param n: Number to be squared.
+    @return: Square of n or n * n.
+    """
+    return n * n
+
+
+def add_one(n):
+    """ Add One
+        Test Helper Function
+
+    DocTests:
+    >>> add_one(41)
+    42
+    >>> add_one(-101)
+    -100
+
+    @param n: Number added to one.
+    @return: Returns N + 1
+    """
+    return n + 1
+
+
 if __name__ == '__main__':
-    import doctest
-
-
-    def is_even(n):
-        """ Is Even
-        Checks a number to see if it is even.
-            Test Helper Function
-
-        DocTests:
-        >>> is_even(1)
-        False
-        >>> is_even(2)
-        True
-        >>> is_even(3)
-        False
-        >>> is_even(42)
-        True
-        >>> is_even(69)
-        False
-
-        @param n: Number to be checked
-        @return: Boolean
-        """
-        return n % 2 == 0
-
-
-    def is_odd(n):
-        """ Is Odd
-        Checks a number to see if it is odd.
-            Test Helper Function
-
-        DocTests:
-        >>> is_odd(1)
-        True
-        >>> is_odd(2)
-        False
-        >>> is_odd(3)
-        True
-        >>> is_odd(42)
-        False
-        >>> is_odd(69)
-        True
-
-        @param n: Number to be checked
-        @return: Boolean
-        """
-        return n % 2 == 1
-
-
-    def square(n):
-        """ Square of N
-            Test Helper Function
-
-        DocTests:
-        >>> square(1)
-        1
-        >>> square(4)
-        16
-        >>> square(-4)
-        16
-
-        @param n: Number to be squared.
-        @return: Square of n or n * n.
-        """
-        return n * n
-
-
-    def add_one(n):
-        """ Add One
-            Test Helper Function
-
-        DocTests:
-        >>> add_one(41)
-        42
-        >>> add_one(-101)
-        -100
-
-        @param n: Number added to one.
-        @return: Returns N + 1
-        """
-        return n + 1
-
-
     doctest.testmod(verbose=True)

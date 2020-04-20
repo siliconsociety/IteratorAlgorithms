@@ -422,7 +422,7 @@ def transform_reduce(lhs: Iterable, rhs: Iterable,
 
 def inner_product(lhs: Iterable, rhs: Iterable):
     """ Inner Product
-    Preforms pairwise multiplication across the iterables,
+    Performs pairwise multiplication across the iterables,
         then returns the sum of the products.
 
     DocTests:

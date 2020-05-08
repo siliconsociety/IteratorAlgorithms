@@ -107,8 +107,6 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ---
 
 
-/usr/local/bin/python3.8 /Users/SpiritHome/PycharmProjects/IteratorAlgorithms/make_docs.py
-
 ## Generators
 
 ### `IteratorAlgorithms.iota`

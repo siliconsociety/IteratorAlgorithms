@@ -107,9 +107,11 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ---
 
 
+/usr/local/bin/python3.8 /Users/SpiritHome/PycharmProjects/IteratorAlgorithms/make_docs.py
+
 ## Generators
 
-### Iota
+### `IteratorAlgorithms.iota`
 ```
 Help on function iota in module IteratorAlgorithms:
 
@@ -134,7 +136,7 @@ iota(start, *, stop=None, step=1, stride=0)
     @param stride: Size of groupings. Default is zero.
 
 ```
-### Generate
+### `IteratorAlgorithms.generate`
 ```
 Help on function generate in module IteratorAlgorithms:
 
@@ -153,7 +155,7 @@ generate(func: Callable, *args, **kwargs)
     @param kwargs: Keyword arguments for the functor.
 
 ```
-### Generate_N
+### `IteratorAlgorithms.generate_n`
 ```
 Help on function generate_n in module IteratorAlgorithms:
 
@@ -175,7 +177,7 @@ generate_n(n: int, func: Callable, *args, **kwargs)
 
 ## Expansions
 
-### Fork
+### `IteratorAlgorithms.fork`
 ```
 Help on function fork in module IteratorAlgorithms:
 
@@ -198,7 +200,7 @@ fork(array: Iterable, forks: int = 2) -> tuple
     @return: Tuple of N Iterators where N is the number of forks.
 
 ```
-### Inclusive_Scan
+### `IteratorAlgorithms.inclusive_scan`
 ```
 Help on function inclusive_scan in module IteratorAlgorithms:
 
@@ -216,7 +218,7 @@ inclusive_scan(array: Iterable, init=None) -> Iterator
     @return: Iterator of Pairs.
 
 ```
-### Exclusive_Scan
+### `IteratorAlgorithms.exclusive_scan`
 ```
 Help on function exclusive_scan in module IteratorAlgorithms:
 
@@ -238,7 +240,7 @@ exclusive_scan(array: Iterable, init=None) -> Iterator
 
 ## Transforms
 
-### Transform
+### `IteratorAlgorithms.transform`
 ```
 Help on function transform in module IteratorAlgorithms:
 
@@ -257,7 +259,7 @@ transform(array: Iterable, func: Callable) -> Iterator
     @return: Iterator of transformed Values.
 
 ```
-### Adjacent_Difference
+### `IteratorAlgorithms.adjacent_difference`
 ```
 Help on function adjacent_difference in module IteratorAlgorithms:
 
@@ -279,7 +281,7 @@ adjacent_difference(array: Iterable) -> Iterator
     @return: Iterator of adjacent differences.
 
 ```
-### Partial_Sum
+### `IteratorAlgorithms.partial_sum`
 ```
 Help on function partial_sum in module IteratorAlgorithms:
 
@@ -301,7 +303,7 @@ partial_sum(array: Iterable) -> Iterator
 
 ## Permutations
 
-### Partition
+### `IteratorAlgorithms.partition`
 ```
 Help on function partition in module IteratorAlgorithms:
 
@@ -326,7 +328,7 @@ partition(array: Iterable, predicate: Callable) -> Iterator
 
 ## Reductions
 
-### Reduce
+### `IteratorAlgorithms.reduce`
 ```
 Help on function reduce in module IteratorAlgorithms:
 
@@ -350,7 +352,7 @@ reduce(array: Iterable, func: Callable, initial=None)
     @return: Reduced Value.
 
 ```
-### Accumulate
+### `IteratorAlgorithms.accumulate`
 ```
 Help on function accumulate in module IteratorAlgorithms:
 
@@ -369,7 +371,7 @@ accumulate(array: Iterable)
     @return: Sum of Values.
 
 ```
-### Product
+### `IteratorAlgorithms.product`
 ```
 Help on function product in module IteratorAlgorithms:
 
@@ -388,7 +390,7 @@ product(array: Iterable)
     @return: Product of all elements multiplied together.
 
 ```
-### Min_Max
+### `IteratorAlgorithms.min_max`
 ```
 Help on function min_max in module IteratorAlgorithms:
 
@@ -405,7 +407,7 @@ min_max(array: Iterable) -> tuple
     @return: Tuple(Minimum, Maximum)
 
 ```
-### Star_Sum
+### `IteratorAlgorithms.star_sum`
 ```
 Help on function star_sum in module IteratorAlgorithms:
 
@@ -427,7 +429,7 @@ star_sum(*args)
     @return: Sum of all arguments.
 
 ```
-### Star_Product
+### `IteratorAlgorithms.star_product`
 ```
 Help on function star_product in module IteratorAlgorithms:
 
@@ -450,7 +452,7 @@ star_product(*args)
 
 ## Queries
 
-### All_Of
+### `IteratorAlgorithms.all_of`
 ```
 Help on function all_of in module IteratorAlgorithms:
 
@@ -472,7 +474,7 @@ all_of(array: Iterable, predicate: Callable) -> bool
     @return: Boolean.
 
 ```
-### Any_Of
+### `IteratorAlgorithms.any_of`
 ```
 Help on function any_of in module IteratorAlgorithms:
 
@@ -494,7 +496,7 @@ any_of(array: Iterable, predicate: Callable) -> bool
     @return: Boolean.
 
 ```
-### None_Of
+### `IteratorAlgorithms.none_of`
 ```
 Help on function none_of in module IteratorAlgorithms:
 
@@ -519,7 +521,7 @@ none_of(array: Iterable, predicate: Callable) -> bool
 
 ## Transform & Reduce
 
-### Transform_Reduce
+### `IteratorAlgorithms.transform_reduce`
 ```
 Help on function transform_reduce in module IteratorAlgorithms:
 
@@ -540,7 +542,7 @@ transform_reduce(lhs: Iterable, rhs: Iterable, transformer: Callable, reducer: C
     @return: Reduced Value
 
 ```
-### Inner_Product
+### `IteratorAlgorithms.inner_product`
 ```
 Help on function inner_product in module IteratorAlgorithms:
 
@@ -563,7 +565,7 @@ inner_product(lhs: Iterable, rhs: Iterable)
 
 ## Multidimensional Reductions
 
-### Zip_Transform
+### `IteratorAlgorithms.zip_transform`
 ```
 Help on function zip_transform in module IteratorAlgorithms:
 
@@ -591,7 +593,7 @@ zip_transform(transducer: Callable, *args: Iterable) -> Iterator
     @return: Iterator of values from the transducer.
 
 ```
-### Transposed_Sums
+### `IteratorAlgorithms.transposed_sums`
 ```
 Help on function transposed_sums in module IteratorAlgorithms:
 
@@ -614,7 +616,7 @@ transposed_sums(*args: Iterable) -> Iterator
 
 ## Multi-Set Operations
 
-### Union
+### `IteratorAlgorithms.union`
 ```
 Help on function union in module IteratorAlgorithms:
 
@@ -633,7 +635,7 @@ union(*args: set) -> set
     @return: Unified set
 
 ```
-### Intersection
+### `IteratorAlgorithms.intersection`
 ```
 Help on function intersection in module IteratorAlgorithms:
 
@@ -655,7 +657,7 @@ intersection(*args: set) -> set
     @return: Set of common elements
 
 ```
-### Difference
+### `IteratorAlgorithms.difference`
 ```
 Help on function difference in module IteratorAlgorithms:
 
@@ -675,7 +677,7 @@ difference(*args: set) -> set
     @return: Difference between the first set and the rest.
 
 ```
-### Symmetric_Difference
+### `IteratorAlgorithms.symmetric_difference`
 ```
 Help on function symmetric_difference in module IteratorAlgorithms:
 

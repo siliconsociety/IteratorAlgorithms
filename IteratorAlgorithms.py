@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """ Iterator Algorithms
 IA is a collection of iterator algorithms inspired by the C++ algorithms library.
 """

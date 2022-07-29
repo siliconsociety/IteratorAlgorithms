@@ -17,7 +17,7 @@ __all__ = (
 )
 
 
-def iota(start, *, stop=None, step=1, stride=0):
+def iota(start, *, stop=None, step=1, stride=0) -> Iterator:
     """ Iota
     Iterator of a given range with grouping size equal to the stride.
     If stride is zero - a single dimensional iterator is returned.
@@ -46,7 +46,7 @@ def iota(start, *, stop=None, step=1, stride=0):
         yield from iter(range(start, stop, step))
 
 
-def generate(func: Callable, *args, **kwargs):
+def generate(func: Callable, *args, **kwargs) -> Iterator:
     """ Generate
     Infinite iterator of a callable with arguments.
 
@@ -64,7 +64,7 @@ def generate(func: Callable, *args, **kwargs):
         yield func(*args, **kwargs)
 
 
-def generate_n(n: int, func: Callable, *args, **kwargs):
+def generate_n(n: int, func: Callable, *args, **kwargs) -> Iterator:
     """ Generate N
     Abstract generator function. Finite.
 
@@ -82,7 +82,7 @@ def generate_n(n: int, func: Callable, *args, **kwargs):
         yield func(*args, **kwargs)
 
 
-def fork(array: Iterable, forks: int = 2) -> tuple:
+def fork(array: Iterable, forks: int = 2) -> Iterator:
     """ Fork
     Iterator Duplicator. Same as itertools.tee but with a better name.
 
@@ -100,7 +100,7 @@ def fork(array: Iterable, forks: int = 2) -> tuple:
     @param forks: Optional Integer. Default is 2. Represents the number of forks.
     @return: Tuple of N Iterators where N is the number of forks.
     """
-    return itertools.tee(array, forks)
+    yield from itertools.tee(array, forks)
 
 
 def inclusive_scan(array: Iterable, init=None) -> Iterator:
@@ -121,7 +121,7 @@ def inclusive_scan(array: Iterable, init=None) -> Iterator:
         left = itertools.chain((init,), left)
     else:
         _ = next(right)
-    return zip(left, right)
+    yield from zip(left, right)
 
 
 def exclusive_scan(array: Iterable, init=None) -> Iterator:
@@ -144,7 +144,7 @@ def exclusive_scan(array: Iterable, init=None) -> Iterator:
         left = itertools.chain((init, ), left)
     else:
         _ = next(right)
-    return zip(left, right)
+    yield from zip(left, right)
 
 
 def transform(array: Iterable, func: Callable) -> Iterator:
@@ -161,7 +161,7 @@ def transform(array: Iterable, func: Callable) -> Iterator:
     @param func: Unary Functor. F(x) -> Value
     @return: Iterator of transformed Values.
     """
-    return map(func, array)
+    yield from map(func, array)
 
 
 def partial_sum(array: Iterable) -> Iterator:
@@ -178,7 +178,7 @@ def partial_sum(array: Iterable) -> Iterator:
     @param array: Iterable of Numeric Values.
     @return: Iterator of adjacent sums.
     """
-    return itertools.accumulate(array, operator.add)
+    yield from itertools.accumulate(array, operator.add)
 
 
 def adjacent_difference(array: Iterable) -> Iterator:
@@ -198,7 +198,7 @@ def adjacent_difference(array: Iterable) -> Iterator:
     @param array: Iterable of Numeric Values.
     @return: Iterator of adjacent differences.
     """
-    return itertools.starmap(lambda x, y: y - x, inclusive_scan(array, 0))
+    yield from itertools.starmap(lambda x, y: y - x, inclusive_scan(array, 0))
 
 
 def partition(array: Iterable, predicate: Callable) -> Iterator:
@@ -224,12 +224,12 @@ def partition(array: Iterable, predicate: Callable) -> Iterator:
             top.append(itm)
         else:
             bottom.append(itm)
-    return itertools.chain(top, bottom)
+    yield from itertools.chain(top, bottom)
 
 
 def reduce(array: Iterable, func: Callable, initial=None):
-    """ Reduce
-    Similar to accumulate but allows any binary functor and/or an initial value.
+    """ Reduce from functools
+    Similar to accumulate but allows any binary functor and an initial value.
 
     DocTests:
     >>> reduce(range(1, 5), operator.add)
@@ -243,7 +243,7 @@ def reduce(array: Iterable, func: Callable, initial=None):
 
     @param array: Iterable of Values to be reduced.
     @param func: Binary Functor.
-    @param initial: Initial value. Typically 0 for add or 1 for multiply.
+    @param initial: Initial value. Typically, 0 for add or 1 for multiply.
     @return: Reduced Value.
     """
     if initial is not None:
@@ -252,21 +252,27 @@ def reduce(array: Iterable, func: Callable, initial=None):
         return functools.reduce(func, array)
 
 
-def accumulate(array: Iterable):
-    """ Accumulate
-    Returns the Sum of a range of elements.
-        Same as sum() or reduce with operator.add
+def accumulate(array: Iterable,
+               func: Callable = operator.add,
+               initial=None) -> Iterator:
+    """ Accumulate from itertools
+    Returns the resulting list from appling the functor to pairs of previous
+    result and each next value.
 
     DocTests:
-    >>> accumulate(range(5))
-    10
-    >>> accumulate(range(11))
-    55
+    >>> list(accumulate([1, 1, 1]))
+    [1, 2, 3]
+    >>> list(accumulate([1, 2, 3]))
+    [1, 3, 6]
+    >>> list(accumulate([1, 1, 1], operator.sub, 10))
+    [10, 9, 8, 7]
 
-    @param array: Iterable of Values to be summed.
-    @return: Sum of Values.
+    @param initial: Initial Value. `None` by default.
+    @param func: Binary Functor. `operator.add` by default.
+    @param array: Iterable of Values
+    @return: Iterator of Accumulated Values
     """
-    return sum(array)
+    yield from itertools.accumulate(array, func=func, initial=initial)
 
 
 def product(array: Iterable):
@@ -286,19 +292,20 @@ def product(array: Iterable):
     return reduce(array, operator.mul, initial=1)
 
 
-def min_max(array: Iterable) -> tuple:
+def min_max(array: Iterable) -> Iterator:
     """ Min & Max Element
 
     DocTests:
-    >>> min_max(range(1, 10))
+    >>> tuple(min_max(range(1, 10)))
     (1, 9)
-    >>> min_max([100, 42, 69, 1])
+    >>> tuple(min_max([100, 42, 69, 1]))
     (1, 100)
 
     @param array: Iterable of Numeric Values
     @return: Tuple(Minimum, Maximum)
     """
-    return min(array), max(array)
+    yield min(array)
+    yield max(array)
 
 
 def star_sum(*args):
@@ -437,7 +444,7 @@ def inner_product(lhs: Iterable, rhs: Iterable):
     return transform_reduce(lhs, rhs, operator.mul, sum)
 
 
-def matrix_multiply(left, right):
+def matrix_multiply(left, right) -> Iterator:
     """ Matrix Product
     Row by Column inner product.
 
@@ -452,7 +459,7 @@ def matrix_multiply(left, right):
     @return: M x P matrix
     """
     right = list(zip(*right))
-    return zip(
+    yield from zip(
         inner_product(row, col)
         for row in left
         for col in right
@@ -482,7 +489,7 @@ def zip_transform(transducer: Callable, *args: Iterable) -> Iterator:
     @param args: Any number of iterables.
     @return: Iterator of values from the transducer.
     """
-    return itertools.starmap(transducer, zip(*args))
+    yield from itertools.starmap(transducer, zip(*args))
 
 
 def transposed_sums(*args: Iterable) -> Iterator:
@@ -500,7 +507,7 @@ def transposed_sums(*args: Iterable) -> Iterator:
     @param args: Arbitrary number of Iterators of numeric values.
     @return: Iterator of transposed sums aka column sums.
     """
-    return zip_transform(lambda *a: sum(a), *args)
+    yield from zip_transform(lambda *a: sum(a), *args)
 
 
 def union(*args: set) -> set:

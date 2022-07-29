@@ -3,16 +3,16 @@
 
 
 IA is a collection of iterator algorithms for Python3, inspired by the C++ 
-algorithms library with ranges.
+algorithms library.
 
 Many of the algorithms are the same as those found in the standard library, but 
 extended in some way. For example: the IA.symmetric_difference function can 
-accept an arbitrary number of sets as input. For comparison, the built in set 
+accept an arbitrary number of sets as input. For comparison, the builtin set 
 method of the same name can only compare 2 sets. The abstraction is raised from - 
-"What's not in both sets." to "What's not in all sets." In both cases it is the 
-exact opposite of the intersection of the same sets.
+"What's not in both sets." to "What's not in all sets." In both cases the result
+is the exact opposite of the intersection of the same sets.
 
-### Quick Install:
+### Quick Installation:
 ```bash
 $ python3 -m pip install IteratorAlgorithms
 ```
@@ -20,7 +20,7 @@ $ python3 -m pip install IteratorAlgorithms
 ### Run Test Suite:
 ```bash
 $ python3 -m IteratorAlgorithms
-# Vebose Test Output
+# Verbose Test Output
 ...
 102 tests in 32 items.
 102 passed and 0 failed.
@@ -38,7 +38,7 @@ $ python3
 None of the standard import styles should trigger the tests.
 
 ### Help Features
-All of the features of this module have full help support built in.
+All the features of this module have full help support built in.
 ```bash
 $ python3
 >>> from IteratorAlgorithms import fork
@@ -106,14 +106,13 @@ fork(array: Iterable, forks: int = 2) -> tuple
 
 ---
 
-
 ## Generators
 
 ### `IteratorAlgorithms.iota`
 ```
 Help on function iota in module IteratorAlgorithms:
 
-iota(start, *, stop=None, step=1, stride=0)
+iota(start, *, stop=None, step=1, stride=0) -> Iterator
     Iota
     Iterator of a given range with grouping size equal to the stride.
     If stride is zero - a single dimensional iterator is returned.
@@ -138,7 +137,7 @@ iota(start, *, stop=None, step=1, stride=0)
 ```
 Help on function generate in module IteratorAlgorithms:
 
-generate(func: Callable, *args, **kwargs)
+generate(func: Callable, *args, **kwargs) -> Iterator
     Generate
     Infinite iterator of a callable with arguments.
     
@@ -157,7 +156,7 @@ generate(func: Callable, *args, **kwargs)
 ```
 Help on function generate_n in module IteratorAlgorithms:
 
-generate_n(n: int, func: Callable, *args, **kwargs)
+generate_n(n: int, func: Callable, *args, **kwargs) -> Iterator
     Generate N
     Abstract generator function. Finite.
     
@@ -179,7 +178,7 @@ generate_n(n: int, func: Callable, *args, **kwargs)
 ```
 Help on function fork in module IteratorAlgorithms:
 
-fork(array: Iterable, forks: int = 2) -> tuple
+fork(array: Iterable, forks: int = 2) -> Iterator
     Fork
     Iterator Duplicator. Same as itertools.tee but with a better name.
     
@@ -331,8 +330,8 @@ partition(array: Iterable, predicate: Callable) -> Iterator
 Help on function reduce in module IteratorAlgorithms:
 
 reduce(array: Iterable, func: Callable, initial=None)
-    Reduce
-    Similar to accumulate but allows any binary functor and/or an initial value.
+    Reduce from functools
+    Similar to accumulate but allows any binary functor and an initial value.
     
     DocTests:
     >>> reduce(range(1, 5), operator.add)
@@ -346,7 +345,7 @@ reduce(array: Iterable, func: Callable, initial=None)
     
     @param array: Iterable of Values to be reduced.
     @param func: Binary Functor.
-    @param initial: Initial value. Typically 0 for add or 1 for multiply.
+    @param initial: Initial value. Typically, 0 for add or 1 for multiply.
     @return: Reduced Value.
 
 ```
@@ -354,19 +353,23 @@ reduce(array: Iterable, func: Callable, initial=None)
 ```
 Help on function accumulate in module IteratorAlgorithms:
 
-accumulate(array: Iterable)
-    Accumulate
-    Returns the Sum of a range of elements.
-        Same as sum() or reduce with operator.add
+accumulate(array: Iterable, func: Callable = <built-in function add>, initial=None) -> Iterator
+    Accumulate from itertools
+    Returns the resulting list from appling the functor to pairs of previous
+    result and each next value.
     
     DocTests:
-    >>> accumulate(range(5))
-    10
-    >>> accumulate(range(11))
-    55
+    >>> list(accumulate([1, 1, 1]))
+    [1, 2, 3]
+    >>> list(accumulate([1, 2, 3]))
+    [1, 3, 6]
+    >>> list(accumulate([1, 1, 1], operator.sub, 10))
+    [10, 9, 8, 7]
     
-    @param array: Iterable of Values to be summed.
-    @return: Sum of Values.
+    @param initial: Initial Value. `None` by default.
+    @param func: Binary Functor. `operator.add` by default.
+    @param array: Iterable of Values
+    @return: Iterator of Accumulated Values
 
 ```
 ### `IteratorAlgorithms.product`
@@ -392,13 +395,13 @@ product(array: Iterable)
 ```
 Help on function min_max in module IteratorAlgorithms:
 
-min_max(array: Iterable) -> tuple
+min_max(array: Iterable) -> Iterator
     Min & Max Element
     
     DocTests:
-    >>> min_max(range(1, 10))
+    >>> tuple(min_max(range(1, 10)))
     (1, 9)
-    >>> min_max([100, 42, 69, 1])
+    >>> tuple(min_max([100, 42, 69, 1]))
     (1, 100)
     
     @param array: Iterable of Numeric Values
@@ -701,8 +704,10 @@ symmetric_difference(*args: set) -> set
 
 ## Test Summary
 ```
+1 items had no tests:
+    __main__
 32 items passed all tests:
-   2 tests in __main__.accumulate
+   3 tests in __main__.accumulate
    2 tests in __main__.add_one
    3 tests in __main__.adjacent_difference
    4 tests in __main__.all_of
@@ -734,7 +739,7 @@ symmetric_difference(*args: set) -> set
    4 tests in __main__.transposed_sums
    4 tests in __main__.union
    7 tests in __main__.zip_transform
-104 tests in 33 items.
-104 passed and 0 failed.
+105 tests in 33 items.
+105 passed and 0 failed.
 Test passed.
 ```

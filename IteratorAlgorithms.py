@@ -36,6 +36,7 @@ def iota(start, *, stop=None, step=1, stride=0) -> Iterator:
     @param stop: Ending. Default is None.
     @param step: Stepping. Default is one.
     @param stride: Size of groupings. Default is zero.
+    @return: Iterator
     """
     if stop is None:
         start, stop = 0, start
@@ -59,6 +60,7 @@ def generate(func: Callable, *args, **kwargs) -> Iterator:
     @param func: Callable.
     @param args: Positional arguments for the functor.
     @param kwargs: Keyword arguments for the functor.
+    @return: Iterator
     """
     while True:
         yield func(*args, **kwargs)
@@ -77,14 +79,15 @@ def generate_n(n: int, func: Callable, *args, **kwargs) -> Iterator:
     @param func: Callable.
     @param args: Positional arguments for the functor.
     @param kwargs: Keyword arguments for the functor.
+    @return: Iterator
     """
     for _ in range(n):
         yield func(*args, **kwargs)
 
 
 def fork(array: Iterable, forks: int = 2) -> Iterator:
-    """ Fork
-    Iterator Duplicator. Same as itertools.tee but with a better name.
+    """ Iterator Fork
+    Iterator Duplicator. Same as `itertools.tee` but with a better name.
 
     DocTests:
     >>> it = iter(range(10))
@@ -98,7 +101,7 @@ def fork(array: Iterable, forks: int = 2) -> Iterator:
 
     @param array: Iterable to be forked.
     @param forks: Optional Integer. Default is 2. Represents the number of forks.
-    @return: Tuple of N Iterators where N is the number of forks.
+    @return: Iterator of N Iterators where N is the number of forks.
     """
     yield from itertools.tee(array, forks)
 

@@ -1,6 +1,6 @@
 # Iterator Algorithms
+![siso-logo.png](assets/siso-logo.png)
 #### Robert Sharp, Library Author
-
 
 IA is a collection of iterator algorithms for Python3, inspired by the C++ 
 algorithms library.

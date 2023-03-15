@@ -1,5 +1,5 @@
 # Iterator Algorithms
-![siso-logo.png](assets/siso-logo.png)
+![SiSo-Logo.png](assets%2FSiSo-Logo.png)
 #### Robert Sharp, Library Author
 
 IA is a collection of iterator algorithms for Python3, inspired by the C++ 

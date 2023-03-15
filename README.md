@@ -68,37 +68,37 @@ fork(array: Iterable, forks: int = 2) -> tuple
 ```
 
 ## Table of Contents:
-- Generators
+- [Generators](#generators)
     - iota
     - generate
     - generate_n
-- Expansions
+- [Expansions](#expansions)
     - fork
     - exclusive_scan
     - inclusive_scan
-- Transforms
+- [Transforms](#transforms)
     - transform
     - adjacent_difference
     - partial_sum
-- Permutations
+- [Permutations](#permutations)
     - partition
-- Reductions
+- [Reductions](#reductions)
     - reduce
     - accumulate
     - product
     - min_max
-- Queries
+- [Queries](#queries)
     - all_of
     - any_of
     - none_of
-- Transform & Reduction
+- [Transform & Reduction](#transform--reduce)
     - transform_reduce
     - inner_product
     - matrix_multiply
-- Multidimensional Reductions
+- [Multidimensional Reductions](#multidimensional-reductions)
     - zip_transform
     - transposed_sums
-- Multi-Set Operations
+- [Multi-Set Operations](#multi-set-operations)
     - union
     - intersection
     - difference
